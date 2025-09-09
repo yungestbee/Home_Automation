@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Link} from "react-router-dom";
 
 const DoorControl = () => {
   const handleDoor = async (action) => {
@@ -21,36 +22,36 @@ const DoorControl = () => {
 
   return (
     <>
-      <div className="p-4">
-        <h2 className="mb-4 text-lg font-bold">Door Control</h2>
-        <button
-          onClick={() => handleDoor("open")}
-          className="bg-green-500 text-white px-4 py-2 rounded mr-2"
-        >
-          Open Door
-        </button>
-        <button
-          onClick={() => handleDoor("close")}
-          className="bg-red-500 text-white px-4 py-2 rounded"
-        >
-          Close Door
-        </button>
-      </div>
+      <div className="container">
+        <div className="updateBtn">
+          <Link to="/update-email">
+            <button>Update Email</button>
+          </Link>
+        </div>
+        <h1>Home Automation Controls</h1>
+        <div className="">
+          <h2 className="mb-4 text-lg font-bold">Door Control</h2>
+          <div className="buttons">
+            <button onClick={() => handleDoor("open")} className="doorOpen">
+              Open Door
+            </button>
+            <button onClick={() => handleDoor("close")} className="doorClose">
+              Close Door
+            </button>
+          </div>
+        </div>
 
-      <div className="p-4">
-        <h2 className="mb-4 text-lg font-bold">Light Control</h2>
-        <button
-          onClick={() => handleLight("on")}
-          className="bg-green-500 text-white px-4 py-2 rounded mr-2"
-        >
-          Light On
-        </button>
-        <button
-          onClick={() => handleLight("off")}
-          className="bg-red-500 text-white px-4 py-2 rounded"
-        >
-          Light Off
-        </button>
+        <div className="p-4">
+          <h2 className="mb-4 text-lg font-bold">Light Control</h2>
+          <div className="buttons">
+            <button onClick={() => handleLight("on")} className="lightOn">
+              Light On
+            </button>
+            <button onClick={() => handleLight("off")} className="lightOff">
+              Light Off
+            </button>
+          </div>
+        </div>
       </div>
     </>
   );
