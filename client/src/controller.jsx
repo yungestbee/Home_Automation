@@ -1,22 +1,25 @@
 import axios from "axios";
 import { Link} from "react-router-dom";
 
+
 const DoorControl = () => {
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   const handleDoor = async (action) => {
     try {
-      await axios.post(`http://localhost:5000/api/door/${action}`);
+      await axios.post(`${apiUrl}/api/device/update`, { door: action });
       alert(`Door ${action}ed`);
     } catch (err) {
-      alert("Action failed");
+      alert("Door action failed");
     }
   };
 
   const handleLight = async (action) => {
     try {
-      await axios.post(`http://localhost:5000/api/light/${action}`);
+      await axios.post(`${apiUrl}/api/device/update`, { light: action });
       alert(`Light ${action}`);
     } catch (err) {
-      alert("Action failed");
+      alert("Light action failed");
     }
   };
 

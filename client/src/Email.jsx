@@ -1,15 +1,18 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Link, Routes, Route, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export default function Email() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [currentEmail, setCurrentEmail] = useState(null);
   const [message, setMessage] = useState("");
 
-  const API_BASE = "https://your-backend.onrender.com"; // change to your backend URL
-
+  const apiUrl = import.meta.env.VITE_API_URL;
   // Fetch current email when page loads
   useEffect(() => {
-    fetch(`${API_BASE}/email`)
+    fetch(`${apiUrl}/api/email`)
       .then((res) => res.json())
       .then((data) => {
         if (data && data.address) {
@@ -24,25 +27,33 @@ export default function Email() {
     e.preventDefault();
     setMessage("");
 
+
+
     try {
-      const res = await fetch(`${API_BASE}/email`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ address: email }),
+        console.log(email)
+      const res = await axios.post(`${apiUrl}/api/email`, { address: email });
+
+      Swal.fire({
+        title: "Email Update Successful!",
+        icon: "success",
+        timer: 2000,
+        timerProgressBar: true,
       });
 
-      const data = await res.json();
-
-      if (res.ok) {
-        setCurrentEmail(data.email.address);
-        setMessage("✅ Email updated successfully");
-        setEmail("");
-      } else {
-        setMessage("❌ " + data.error || "Failed to update email");
-      }
+      console.log(res.data);
+      // navigate("/controls");
     } catch (err) {
-      setMessage("❌ Error: " + err.message);
+      if (err.response) {
+        // Backend responded with error
+        setMessage(
+          "❌ " + (err.response.data.error || "Failed to update email")
+        );
+      } else {
+        // Network / other errors
+        setMessage("❌ Error: " + err.message);
+      }
     }
+
   };
 
   return (

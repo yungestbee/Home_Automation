@@ -39,6 +39,7 @@ router.post("/intrusion", async (req, res) => {
       success: true,
       message: `Intrusion alert sent to ${emailDoc.address}`,
     });
+    console.log("Mail sent")
   } catch (err) {
     console.error(err.message);
     res
